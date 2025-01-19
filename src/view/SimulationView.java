@@ -1,17 +1,28 @@
 package view;
+import model.SimulationModel;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-public class SimulationView extends JFrame{
-    private JPanel simulationGridPanel;
-    private JPanel controlPanel;
-    public SimulationView(){
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        JPanel mainPanel = new JPanel();
-        super.getContentPane().add(mainPanel);
-        super.setLocation(0, 0);
-        super.setSize(screenSize);
-        super.setTitle("Falling Game of Life");
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+
+public class SimulationView extends JFrame implements ActionListener {
+    private final GridView myGridView;
+    private final SimulationModel myModel;
+    public SimulationView(SimulationModel model){
+        super.setTitle("Simulation");
+        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        super.setSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width,Toolkit.getDefaultToolkit().getScreenSize().height));
+        super.setLocationRelativeTo(null);
+        super.setResizable(false);
+        super.setVisible(true);
+        super.setLayout(new BorderLayout());
+        this.myModel = model;
+        this.myGridView = new GridView(model);
+        super.add(this.myGridView, BorderLayout.CENTER);
+    }
+    public void actionPerformed(ActionEvent e) {
+        this.myModel.calculateNextGeneration();
+        this.myGridView.repaint();
     }
 }

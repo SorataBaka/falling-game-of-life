@@ -4,10 +4,8 @@ import view.SimulationView;
 
 public class FGameOfLife {
     public static void main(String[] args){
-        SimulationModel model = new SimulationModel(10, 100, 100);
-        SimulationView view = new SimulationView();
+        SimulationModel model = new SimulationModel(500, 500);
+        SimulationView view = new SimulationView(model);
         new SimulationController(model, view);
-
-        view.setVisible(true);
     }
 }
