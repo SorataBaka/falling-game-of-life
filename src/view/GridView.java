@@ -12,7 +12,7 @@ public class GridView extends JPanel implements MouseListener, MouseMotionListen
     private final SimulationModel myModel;
     public GridView(SimulationModel model) {
         this.setSize(new Dimension(model.getWidth(), model.getHeight()));
-        this.setBackground(Color.BLACK);
+        this.setBackground(Color.GRAY);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         this.myModel = model;
@@ -20,22 +20,8 @@ public class GridView extends JPanel implements MouseListener, MouseMotionListen
     public void drawCircle(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
-        //If x and y out of bounds do nothing
-        if(x < 0 || x >= this.getWidth() || y < 0 || y >= this.getHeight()) return;
-        int radius = 20;
-        for (int i = -radius; i <= radius; i++) {
-            for (int j = -radius; j <= radius; j++) {
-                // Check if the point is within the circle's radius using Pythagorean theorem
-                if (i * i + j * j <= radius * radius) {
-                    int circleX = x + i;
-                    int circleY = y + j;
-                    // Ensure the coordinates are within bounds
-                    if (circleX >= 0 && circleX < this.getWidth() && circleY >= 0 && circleY < this.getHeight()) {
-                        this.myModel.getSimulationGrid()[circleX][circleY] = 1; // Mark the grid as occupied by the circle
-                    }
-                }
-            }
-        }
+        this.myModel.drawCircle(x, y, 20);
+
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

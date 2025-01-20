@@ -9,20 +9,31 @@ import javax.swing.*;
 public class SimulationView extends JFrame implements ActionListener {
     private final GridView myGridView;
     private final SimulationModel myModel;
+    private final ControlPanelView controlPanelView;
     public SimulationView(SimulationModel model){
+
+        this.myModel = model;
+        this.myGridView = new GridView(model);
+        this.controlPanelView = new ControlPanelView(model);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(this.myGridView, BorderLayout.CENTER);
+        panel.add(this.controlPanelView, BorderLayout.SOUTH);
+        super.add(panel);
+
+        super.revalidate();
+        super.repaint();
+
         super.setTitle("Simulation");
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width,Toolkit.getDefaultToolkit().getScreenSize().height));
         super.setLocationRelativeTo(null);
-        super.setResizable(false);
         super.setVisible(true);
-        super.setLayout(new BorderLayout());
-        this.myModel = model;
-        this.myGridView = new GridView(model);
-        super.add(this.myGridView, BorderLayout.CENTER);
     }
     public void actionPerformed(ActionEvent e) {
-        this.myModel.calculateNextGeneration();
+        if(this.controlPanelView.sandLogicOn())this.myModel.calculateNextGeneration();
+        if(this.controlPanelView.gameOfLifeLogicOn())this.myModel.gameOfLife();
         this.myGridView.repaint();
     }
 }
