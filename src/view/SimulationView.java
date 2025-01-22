@@ -1,5 +1,5 @@
 package view;
-import model.SimulationModel;
+import controller.SimulationController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,16 +8,22 @@ import javax.swing.*;
 
 public class SimulationView extends JFrame implements ActionListener {
     private final GridView myGridView;
-    private final SimulationModel myModel;
+    private final SimulationController controller;
     private final ControlPanelView controlPanelView;
-    public SimulationView(SimulationModel model){
+    public SimulationView(SimulationController controller){
+        this.controller = controller;
+        this.myGridView = new GridView(this.controller.getModel());
+        this.controlPanelView = new ControlPanelView(this.controller);
 
-        this.myModel = model;
-        this.myGridView = new GridView(model);
-        this.controlPanelView = new ControlPanelView(model);
+        JLabel labelTitle = new JLabel("Game of Life + Sand Simulation");
+        labelTitle.setBorder(BorderFactory.createEmptyBorder(20, 20,  20, 20));
+        labelTitle.setFont(new Font("Arial", Font.BOLD, 50));
+        labelTitle.setForeground(Color.BLACK);
+        labelTitle.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
+        panel.add(labelTitle, BorderLayout.NORTH);
         panel.add(this.myGridView, BorderLayout.CENTER);
         panel.add(this.controlPanelView, BorderLayout.SOUTH);
         super.add(panel);
@@ -32,8 +38,8 @@ public class SimulationView extends JFrame implements ActionListener {
         super.setVisible(true);
     }
     public void actionPerformed(ActionEvent e) {
-        if(this.controlPanelView.sandLogicOn())this.myModel.calculateNextGeneration();
-        if(this.controlPanelView.gameOfLifeLogicOn())this.myModel.gameOfLife();
+        if(this.controlPanelView.sandLogicOn()) this.controller.getModel().calculateNextGeneration();
+        this.controller.getModel().gameOfLife();
         this.myGridView.repaint();
     }
 }

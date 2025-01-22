@@ -1,14 +1,23 @@
 package model;
 
+import controller.SimulationController;
+
 import java.util.Random;
 
 public class SimulationModel {
     private final int gridHeight;
     private final int gridWidth;
     private final int [][] simulationGrid;
-    public SimulationModel(int height, int width){
+    private int radius;
+    private final SimulationController controller;
+    private int gameOfLifeMultiplier;
+    public SimulationModel(int height, int width, SimulationController controller){
+        this.controller = controller;
         this.gridHeight = height;
         this.gridWidth = width;
+        this.radius = 10;
+        this.gameOfLifeMultiplier = 0;
+
         this.simulationGrid = new int[gridWidth][gridHeight];
         //Initialize the entire grid to be 0
         //Just for test, set some cells to 1
@@ -27,12 +36,24 @@ public class SimulationModel {
     public int[][] getSimulationGrid(){
         return this.simulationGrid;
     }
-    public void drawCircle(int x, int y, int radius){
+    public void setRadius(int radius){
+        this.radius = radius;
+    }
+    public int getRadius(){
+        return this.radius;
+    }
+    public int getGameOfLifeMultiplier(){
+        return this.gameOfLifeMultiplier;
+    }
+    public void setGameOfLifeMultiplier(int gameOfLifeMultiplier){
+        this.gameOfLifeMultiplier = gameOfLifeMultiplier;
+    }
+    public void drawCircle(int x, int y){
         if(x < 0 || x >= this.gridWidth || y < 0 || y >= this.gridHeight) return;
-        for (int i = -radius; i <= radius; i++) {
-            for (int j = -radius; j <= radius; j++) {
+        for (int i = -this.radius; i <= this.radius; i++) {
+            for (int j = -this.radius; j <= this.radius; j++) {
                 // Check if the point is within the circle's radius using Pythagorean theorem
-                if (i * i + j * j <= radius * radius) {
+                if (i * i + j * j <= this.radius * this.radius) {
                     int circleX = x + i;
                     int circleY = y + j;
                     // Ensure the coordinates are within bounds
@@ -45,23 +66,25 @@ public class SimulationModel {
     }
     public void gameOfLife(){
         int neighbours;
-        for(int i = 1; i < this.gridWidth - 1; i++){
-            for(int j = this.gridHeight - 2; j >= 1; j--){
-                neighbours = 0;
-                if(this.getSimulationGrid()[i-1][j-1] == 1) neighbours++;
-                if(this.getSimulationGrid()[i][j-1] == 1) neighbours++;
-                if(this.getSimulationGrid()[i+1][j-1] == 1) neighbours++;
-                if(this.getSimulationGrid()[i-1][j] == 1) neighbours++;
-                if(this.getSimulationGrid()[i+1][j] == 1) neighbours++;
-                if(this.getSimulationGrid()[i-1][j+1] == 1) neighbours++;
-                if(this.getSimulationGrid()[i][j+1] == 1) neighbours++;
-                if(this.getSimulationGrid()[i+1][j+1] == 1) neighbours++;
+        for(int multiplier = 1; multiplier <= this.gameOfLifeMultiplier; multiplier++){
+            for(int i = 1; i < this.gridWidth - 1; i++){
+                for(int j = this.gridHeight - 2; j >= 1; j--){
+                    neighbours = 0;
+                    if(this.getSimulationGrid()[i-1][j-1] == 1) neighbours++;
+                    if(this.getSimulationGrid()[i][j-1] == 1) neighbours++;
+                    if(this.getSimulationGrid()[i+1][j-1] == 1) neighbours++;
+                    if(this.getSimulationGrid()[i-1][j] == 1) neighbours++;
+                    if(this.getSimulationGrid()[i+1][j] == 1) neighbours++;
+                    if(this.getSimulationGrid()[i-1][j+1] == 1) neighbours++;
+                    if(this.getSimulationGrid()[i][j+1] == 1) neighbours++;
+                    if(this.getSimulationGrid()[i+1][j+1] == 1) neighbours++;
 
-                boolean currentPositionPopulated = this.getSimulationGrid()[i][j] == 1;
-                if(currentPositionPopulated && neighbours < 2) this.simulationGrid[i][j] = 0;
-                if(currentPositionPopulated && (neighbours == 2 || neighbours == 3)) this.simulationGrid[i][j] = 1;
-                if(currentPositionPopulated && neighbours > 3) this.simulationGrid[i][j] = 0;
-                if(!currentPositionPopulated && neighbours == 3) this.simulationGrid[i][j] = 1;
+                    boolean currentPositionPopulated = this.getSimulationGrid()[i][j] == 1;
+                    if(currentPositionPopulated && neighbours < 2) this.simulationGrid[i][j] = 0;
+                    if(currentPositionPopulated && (neighbours == 2 || neighbours == 3)) this.simulationGrid[i][j] = 1;
+                    if(currentPositionPopulated && neighbours > 3) this.simulationGrid[i][j] = 0;
+                    if(!currentPositionPopulated && neighbours == 3) this.simulationGrid[i][j] = 1;
+                }
             }
         }
     }
@@ -104,5 +127,12 @@ public class SimulationModel {
             }
         }
         System.gc();
+    }
+    public void resetGrid(){
+        for(int i = 0; i < this.gridWidth; i++){
+            for(int j = 0; j < this.gridHeight; j++){
+                this.simulationGrid[i][j] = 0;
+            }
+        }
     }
 }

@@ -17,12 +17,6 @@ public class GridView extends JPanel implements MouseListener, MouseMotionListen
         this.addMouseMotionListener(this);
         this.myModel = model;
     }
-    public void drawCircle(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
-        this.myModel.drawCircle(x, y, 20);
-
-    }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.BLACK);
@@ -40,7 +34,7 @@ public class GridView extends JPanel implements MouseListener, MouseMotionListen
     @Override
     public void mouseClicked(MouseEvent e) {
         // Called when the mouse is clicked (pressed and released).
-        this.drawCircle(e);
+        this.myModel.drawCircle(e.getX(), e.getY());
         this.repaint();
 
     }
@@ -48,7 +42,7 @@ public class GridView extends JPanel implements MouseListener, MouseMotionListen
     @Override
     public void mousePressed(MouseEvent e) {
         // Called when the mouse button is pressed.
-        this.drawCircle(e);
+        this.myModel.drawCircle(e.getX(), e.getY());
         this.repaint();
 
     }
@@ -70,7 +64,7 @@ public class GridView extends JPanel implements MouseListener, MouseMotionListen
     @Override
     public void mouseDragged(MouseEvent e) {
         // Called when the mouse is dragged (clicked and moved).
-        this.drawCircle(e);
+        this.myModel.drawCircle(e.getX(), e.getY());
         this.repaint();
 
     }
