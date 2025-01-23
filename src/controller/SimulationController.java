@@ -1,4 +1,5 @@
 package controller;
+
 import javax.swing.*;
 import model.SimulationModel;
 import view.SimulationView;

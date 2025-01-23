@@ -23,7 +23,7 @@ public class ControlPanelView extends JPanel implements ActionListener, ChangeLi
 
     public ControlPanelView(SimulationController controller) {
         this.controller = controller;
-        Font defaultFont = new Font("Arial", Font.PLAIN, 30);
+        Font defaultFont = new Font("Arial", Font.PLAIN, 20);
 
         //INITIALIZE ALL CONTROLS
         this.resetButton = new JButton("Reset");

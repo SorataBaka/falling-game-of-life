@@ -49,9 +49,11 @@ public class SimulationModel {
         this.gameOfLifeMultiplier = gameOfLifeMultiplier;
     }
     public void drawCircle(int x, int y){
+        Random random = new Random();
         if(x < 0 || x >= this.gridWidth || y < 0 || y >= this.gridHeight) return;
         for (int i = -this.radius; i <= this.radius; i++) {
             for (int j = -this.radius; j <= this.radius; j++) {
+                if(random.nextBoolean()) continue;
                 // Check if the point is within the circle's radius using Pythagorean theorem
                 if (i * i + j * j <= this.radius * this.radius) {
                     int circleX = x + i;
