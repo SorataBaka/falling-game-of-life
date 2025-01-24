@@ -20,32 +20,140 @@
             text-align: center;
             overflow-y: scroll;
             overflow-x: hidden;
-            padding: 50px;
+            padding: 20px;
         }
 
-        h2 {
-            text-align: left;
+        .formula {
+            font-family: "Courier New", monospace;
+            white-space: pre-wrap;
+            /* Ensure text doesn't get cut off */
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 50px;
         }
     </style>
 </head>
 
 <body>
+    <p style="text-align: left;"><i>２４番・クリスティアン　ハルジュノ・テーマ２１</i></p>
     <div id="main-div" class="main-div">
-        <p style="text-align: left; "><i>２４・クリスティアン　ハルジュノ・テーマ２１</i></p>
-        <h1 style="size: 30px;">Game of Life & Particle Game</h1>
-        <h3>人生ゲームと粒子ゲーム</h3>
+        <h1 style="font-size: 50px;">Game of Life & Powder Game</h1>
+        <p><i>コナウェイの生命ゲーム & パウダーゲーム</i></p>
         <hr>
-        <video width="1080" height="720" controls>
-            <source src="" type="video/mp4">
-        </video>
-        <p><i>ゲームデモ</i></p>
+        <div style="padding: 50px;">
+            <video width="1080" height="720" controls>
+            </video>
+            <p><i>ゲームデモ</i></p>
+        </div>
         <hr>
-        <h2>ユーザー向け説明</h2>
-        <p></p>
-        <h2>開発者向け説明</h2>
-        <p></p>
-        <h2>クラス分割説明</h2>
-        <p></p>
+        <h2 style="text-align: left; font-size: 30px;">ダウンロード</h2>
+        <a href="./assets/p234071.jar" download>
+            <p style="text-align: left;"><i>ダウンロードリンク</i></p>
+        </a>
+        <hr>
+        <h2 style="text-align: left; font-size: 30px;">ユーザー向けの説明</h2>
+        <p style="text-align: left; font-size: 25px;">
+            このアプリケーションは、2つの人気ゲーム「パウダーゲーム」とジョン・ホートン・コンウェイの「ライフゲーム」に基づいています。
+        </p>
+        <p style="text-align: left; font-size: 25px;">
+            パウダーゲームは物理をテーマにしたゲームで、画面上にさまざまな粒子を配置し、それらが互いに作用し合いながら重力に反応する様子を観察することができます。一方、ライフゲームはシンプルなシミュレーションで、各世代において細胞の成長や死が隣接する細胞の有無によって決定されます。このゲームが「ライフゲーム」と呼ばれるのは、現実世界における過密化や過疎化の影響をシミュレートするためです。
+        </p>
+        <div style="display: flex; flex-direction: row; align-content: center; justify-content: center; gap: 20px;">
+            <div style="display: flex; flex-direction: column;">
+                <iframe width="560" height="315"
+                    src="https://www.youtube.com/embed/nuVmU83cA2k?si=MZQa64PG_W9w6-zs&amp;controls=1&amp;start=28"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <p><i>パウダーゲームのデモ</i></p>
+            </div>
+            <div style="display: flex; flex-direction: column;">
+                <iframe width="560" height="315"
+                    src="https://www.youtube.com/embed/sVIx-d1vEUA?si=uV8rtz9puga4VCvs&amp;start=7"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <p><i>ライフゲーム</i></p>
+            </div>
+        </div>
+        <p style="text-align: left; font-size: 25px;">
+            これらの2つの概念を組み合わせることで、楽しく満足感のある粒子シミュレーションゲームを作成しました。このゲームでは、画面に砂を描き、それが砂丘に落ちていく様子を心地よく眺めることができます。さらにライフゲームのルールを組み込むことで、砂の粒子が有機的でほとんど生命のように振る舞い、その動きや形状が予測不可能になります。
+        </p>
+        <p style="text-align: left; font-size: 25px;">
+            このアプリケーションでは、粒子の挙動を調整して変化を観察するための5つのコントロールを提供しています：
+        </p>
+        <ol style="text-align: left; font-size: 25px;">
+            <li>
+                画面上のすべての粒子を削除するリセットボタン。
+            </li>
+            <li>
+                粒子物理のオン/オフを切り替えるトグルボタン。
+            </li>
+            <li>
+                レンダリングサイクルごとにライフゲームが処理する進化の世代数を変更するスライダー。
+            </li>
+            <li>
+                カーソルサイズを調整するスライダー。
+            </li>
+            <li>
+                シミュレーション速度を変更するスライダー。値が小さいほど、フレームの再レンダリングが速くなります。
+            </li>
+        </ol>
+        <hr>
+        <h2 style="text-align: left; font-size: 30px;">開発者向けの説明</h2>
+        <p style="text-align: left; font-size: 25px;">
+            これら2つの概念を組み合わせるには、2種類の異なるアルゴリズムが必要です。画面上の各ピクセルは、2次元配列内の1つのセルを表しています。画面上に描画すると、対応する配列のセルがアクティブになり（値を1に設定）、各サイクルで粒子の次の位置が計算されます。
+        </p>
+        <div class="formula" style="color: black; text-align: left; font-size: 20px;">
+            (x', y') =<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;(x, y + v), &nbsp; if A[x, y + v] = 0 <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;(x + R, y + v), &nbsp; if A[x, y + v] ≠ 0 and A[x + R, y + v] = 0 <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;(x, y), &nbsp; if A[x, y + v] ≠ 0 and A[x + R, y + v] ≠ 0
+        </div>
+        <ul style="margin-top: 10px; text-align: left; font-size: 25px;">
+            <li>(x, y): 砂粒の現在の位置（グリッド内）</li>
+            <li>v: 固定された垂直速度（ピクセル単位の時間ステップ）</li>
+            <li>A[x, y]: セルの状態（0 = 空、1 = 占有）</li>
+            <li>R: ランダムな2値変数（R ∈ {-1, 1}）、R = -1 は左に流れ、R = 1 は右に流れる</li>
+        </ul>
+        <p style="text-align: left; font-size: 25px;">
+            粒子が下に移動できない場合（下の位置が何かで占有されている場合）、実際の砂のようにランダムに左または右に流れます。また、ライフゲームをシミュレートする必要があるため、各砂粒子の次の位置を計算した後に、そのセルの生存している隣接セルの数を数えます。この数に基づいて、次の世代でそのセルが生存するか死ぬかを決定します。
+        </p>
+        <div class="formula" style="color: black; text-align: left; font-size: 20px;">
+            C'(x, y) =<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;1, &nbsp; もし C(x, y) = 0 かつ N(x, y) = 3 <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;1, &nbsp; もし C(x, y) = 1 かつ (N(x, y) = 2 または N(x, y) = 3) <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;0, &nbsp; もし C(x, y) = 1 かつ (N(x, y) < 2 または N(x, y)> 3) <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;0, &nbsp; もし C(x, y) = 0 かつ N(x, y) ≠ 3
+        </div>
+
+        <p style="text-align: left; font-size: 25px;">ここで:</p>
+        <ul style="text-align: left; font-size: 25px; margin-top: 10px;">
+            <li>C(x, y): セル (x, y) の現在の状態（1 = 生存、0 = 死亡）</li>
+            <li>N(x, y): セル (x, y) の周囲に生存しているセルの数（隣接する8つのセルを考慮）</li>
+        </ul>
+        <h2 style="text-align: left;">ライフゲームのルール:</h2>
+        <ol style="text-align: left; font-size: 25px;">
+            <li><strong>生存:</strong> 生存しているセルは、隣接する生存セルが2つまたは3つの場合に次の世代でも生存します。</li>
+            <li><strong>死亡:</strong> 生存しているセルは、隣接する生存セルが2未満または3を超える場合、次の世代で死亡します。</li>
+            <li><strong>誕生:</strong> 死んでいるセルは、隣接する生存セルがちょうど3つの場合、次の世代で生まれます。</li>
+        </ol>
+        <hr>
+        <h2 style="text-align: left; font-size: 30px;">クラス分割の説明</h2>
+        <img src="./assets/mvc.png" alt="MVC Diagram">
+        <p style="text-align: left; font-size: 25px;">
+            このプログラムは、MVC（モデル・ビュー・コントローラー） デザインパターンに従っています。モデル はアプリケーションのロジックを担当し、すべてのデータを保持します。ビュー
+            はユーザーインターフェースを管理し、画面に情報を表示し、ユーザーとのインタラクションを処理します。コントローラー はモデルとビューの間の仲介役を果たし、状態の変更やビューの再描画を管理します。
+        </p>
+        <p style="text-align: left; font-size: 25px;">
+            このデザインでは、モデル クラスは2次元配列を保持し、ロジックに関連するすべてのアルゴリズムを実行します。ビュー クラスは描画やレイアウト管理を担当し、パネルやフレームの管理、コントロールを行います。コントローラー
+            は、ビューを再描画すべきタイミングを管理し、タイマー、モデル、ビュー をすべて保持しています。
+        </p>
+        <p style="text-align: left; font-size: 25px;">
+            ビュー または モデル が互いのメソッドやフィールドにアクセスする必要がある場合、必ず コントローラー を通じて行われます。コントローラー は、モデル と ビュー
+            の相互作用が調整され、アプリケーションが疎結合でモジュール化された状態を保つことを保証します。
+        </p>
     </div>
 </body>
 

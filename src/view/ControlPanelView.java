@@ -39,6 +39,11 @@ public class ControlPanelView extends JPanel implements ActionListener, ChangeLi
         this.simulationSpeedSlider = new JSlider(JSlider.HORIZONTAL, 0, 200, this.controller.getDelay());
         this.gameOfLifeMultiplierSlider = new JSlider(JSlider.HORIZONTAL, 0,10, this.controller.getModel().getGameOfLifeMultiplier());
 
+        JPanel colorPanel = new JPanel();
+        colorPanel.setLayout(new GridLayout(2, 5))
+        for(int i = 0 i < SimulationModel.color_hex.length; i++){
+        
+        }
 
         //ADD LISTENERS
 
@@ -88,7 +93,7 @@ public class ControlPanelView extends JPanel implements ActionListener, ChangeLi
         simulationSpeedPanel.add(simulationSpeedSlider, BorderLayout.CENTER);
 
 
-        this.setLayout(new GridLayout(1, 5));
+        this.setLayout(new GridLayout(1, 6));
 
         this.add(resetButton);
         this.add(sandLogicPanel);
