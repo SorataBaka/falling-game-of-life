@@ -11,12 +11,26 @@ public class SimulationModel {
     private int radius;
     private final SimulationController controller;
     private int gameOfLifeMultiplier;
+    private static String[] color_hex = {
+        "#FF0000",
+        "#0000FF",
+        "#008000",
+        "#FFFF00",
+        "#800080",
+        "#FFA500",
+        "#FFC0CB",
+        "#A52A2A",
+        "#000000",
+        "#FFFFFF"
+    }
+    private int chosenColor;
     public SimulationModel(int height, int width, SimulationController controller){
         this.controller = controller;
         this.gridHeight = height;
         this.gridWidth = width;
         this.radius = 10;
         this.gameOfLifeMultiplier = 0;
+        this.chosenColor = 2;
 
         this.simulationGrid = new int[gridWidth][gridHeight];
         //Initialize the entire grid to be 0
