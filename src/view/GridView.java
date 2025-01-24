@@ -24,8 +24,8 @@ public class GridView extends JPanel implements MouseListener, MouseMotionListen
         int [][] grid = this.myModel.getSimulationGrid();
         for(int row = 0; row < this.myModel.getHeight(); row++) {
             for(int col = 0; col < this.myModel.getWidth(); col++) {
-                if(grid[col][row] == 1) {
-                    g.setColor(Color.GREEN);
+                if(grid[col][row] > 0) {
+                    g.setColor(SimulationModel.color_hex[grid[col][row] - 1]);
                     g.fillRect(col, row, 1, 1);
                 }
             }

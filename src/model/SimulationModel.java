@@ -2,6 +2,7 @@ package model;
 
 import controller.SimulationController;
 
+import java.awt.*;
 import java.util.Random;
 
 public class SimulationModel {
@@ -11,18 +12,18 @@ public class SimulationModel {
     private int radius;
     private final SimulationController controller;
     private int gameOfLifeMultiplier;
-    private static String[] color_hex = {
-        "#FF0000",
-        "#0000FF",
-        "#008000",
-        "#FFFF00",
-        "#800080",
-        "#FFA500",
-        "#FFC0CB",
-        "#A52A2A",
-        "#000000",
-        "#FFFFFF"
-    }
+    public final static Color[] color_hex = {
+            Color.RED,        // Red
+            Color.BLUE,       // Blue
+            Color.GREEN,      // Green
+            Color.YELLOW,     // Yellow
+            Color.MAGENTA,    // Purple
+            Color.ORANGE,     // Orange
+            Color.PINK,       // Pink
+            new Color(165, 42, 42),  // Brown (Custom RGB)
+            Color.LIGHT_GRAY,      // Black
+            Color.WHITE       // White
+    };
     private int chosenColor;
     public SimulationModel(int height, int width, SimulationController controller){
         this.controller = controller;
@@ -62,19 +63,22 @@ public class SimulationModel {
     public void setGameOfLifeMultiplier(int gameOfLifeMultiplier){
         this.gameOfLifeMultiplier = gameOfLifeMultiplier;
     }
+    public void setChosenColor(int chosenColor){
+        this.chosenColor = chosenColor;
+    }
     public void drawCircle(int x, int y){
-        Random random = new Random();
+//        Random random = new Random();
         if(x < 0 || x >= this.gridWidth || y < 0 || y >= this.gridHeight) return;
         for (int i = -this.radius; i <= this.radius; i++) {
             for (int j = -this.radius; j <= this.radius; j++) {
-                if(random.nextBoolean()) continue;
+//                if(random.nextBoolean()) continue;
                 // Check if the point is within the circle's radius using Pythagorean theorem
                 if (i * i + j * j <= this.radius * this.radius) {
                     int circleX = x + i;
                     int circleY = y + j;
                     // Ensure the coordinates are within bounds
                     if (circleX >= 0 && circleX < this.getWidth() && circleY >= 0 && circleY < this.getHeight()) {
-                        this.getSimulationGrid()[circleX][circleY] = 1; // Mark the grid as occupied by the circle
+                        this.getSimulationGrid()[circleX][circleY] = this.chosenColor + 1; // Mark the grid as occupied by the circle
                     }
                 }
             }
@@ -82,50 +86,82 @@ public class SimulationModel {
     }
     public void gameOfLife(){
         int neighbours;
+        int colorAverage;
         for(int multiplier = 1; multiplier <= this.gameOfLifeMultiplier; multiplier++){
             for(int i = 1; i < this.gridWidth - 1; i++){
                 for(int j = this.gridHeight - 2; j >= 1; j--){
                     neighbours = 0;
-                    if(this.getSimulationGrid()[i-1][j-1] == 1) neighbours++;
-                    if(this.getSimulationGrid()[i][j-1] == 1) neighbours++;
-                    if(this.getSimulationGrid()[i+1][j-1] == 1) neighbours++;
-                    if(this.getSimulationGrid()[i-1][j] == 1) neighbours++;
-                    if(this.getSimulationGrid()[i+1][j] == 1) neighbours++;
-                    if(this.getSimulationGrid()[i-1][j+1] == 1) neighbours++;
-                    if(this.getSimulationGrid()[i][j+1] == 1) neighbours++;
-                    if(this.getSimulationGrid()[i+1][j+1] == 1) neighbours++;
+                    colorAverage = 0;
+                    if(this.simulationGrid[i-1][j-1] > 0) {
+                        neighbours++;
+                        colorAverage += this.simulationGrid[i-1][j-1];
+                    }
+                    if(this.simulationGrid[i][j-1] > 0) {
+                        neighbours++;
+                        colorAverage += this.simulationGrid[i][j-1];
+                    }
+                    if(this.simulationGrid[i+1][j-1] > 0) {
+                        neighbours++;
+                        colorAverage += this.simulationGrid[i+1][j-1];
+                    }
+                    if(this.simulationGrid[i-1][j] > 0) {
+                        neighbours++;
+                        colorAverage += this.simulationGrid[i-1][j];
+                    }
+                    if(this.simulationGrid[i+1][j] > 0) {
+                        neighbours++;
+                        colorAverage += this.simulationGrid[i+1][j];
+                    }
+                    if(this.simulationGrid[i-1][j+1] > 0) {
+                        neighbours++;
+                        colorAverage += this.simulationGrid[i-1][j+1];
+                    }
+                    if(this.simulationGrid[i][j+1] > 0) {
+                        neighbours++;
+                        colorAverage += this.simulationGrid[i][j+1];
+                    }
+                    if(this.simulationGrid[i+1][j+1] > 0) {
+                        neighbours++;
+                        colorAverage += this.simulationGrid[i+1][j+1];
+                    }
 
-                    boolean currentPositionPopulated = this.getSimulationGrid()[i][j] == 1;
+                    boolean currentPositionPopulated = this.simulationGrid[i][j] > 0;
+                    if(neighbours == 0){
+                        colorAverage = 10;
+                    }else{
+                        float average = (float) colorAverage / neighbours;
+                        colorAverage = Math.round(average);
+                    }
                     if(currentPositionPopulated && neighbours < 2) this.simulationGrid[i][j] = 0;
-                    if(currentPositionPopulated && (neighbours == 2 || neighbours == 3)) this.simulationGrid[i][j] = 1;
+                    if(currentPositionPopulated && (neighbours == 2 || neighbours == 3)) this.simulationGrid[i][j] = colorAverage;
                     if(currentPositionPopulated && neighbours > 3) this.simulationGrid[i][j] = 0;
-                    if(!currentPositionPopulated && neighbours == 3) this.simulationGrid[i][j] = 1;
+                    if(!currentPositionPopulated && neighbours == 3) this.simulationGrid[i][j] = colorAverage;
                 }
             }
         }
     }
 
     public void generate(Random random, int i, int j){
-        if (this.simulationGrid[i][j] == 1) {
+        if (this.simulationGrid[i][j] > 0) {
             if (j + 1 < this.gridHeight && this.simulationGrid[i][j + 1] == 0) {
-                this.simulationGrid[i][j + 1] = 1;
+                this.simulationGrid[i][j + 1] = this.simulationGrid[i][j];
                 this.simulationGrid[i][j] = 0;
             } else {
                 if (random.nextBoolean()) {
                     if (j + 1 < this.gridHeight && i - 1 >= 0 && this.simulationGrid[i - 1][j + 1] == 0) {
-                        this.simulationGrid[i - 1][j + 1] = 1;
+                        this.simulationGrid[i - 1][j + 1] = this.simulationGrid[i][j];
                         this.simulationGrid[i][j] = 0;
                     } else if (j + 1 < this.gridHeight && i + 1 < this.gridWidth && this.simulationGrid[i + 1][j + 1] == 0) {
-                        this.simulationGrid[i+1][j+1] = 1;
+                        this.simulationGrid[i+1][j+1] = this.simulationGrid[i][j];
                         this.simulationGrid[i][j] = 0;
                     }
                 } else {
                     if (j + 1 < this.gridHeight && i + 1 < this.gridWidth && this.simulationGrid[i + 1][j + 1] == 0) {
+                        this.simulationGrid[i+1][j+1] = this.simulationGrid[i][j];
                         this.simulationGrid[i][j] = 0;
-                        this.simulationGrid[i+1][j+1] = 1;
                     } else if (j + 1 < this.gridHeight && i - 1 >= 0 && this.simulationGrid[i - 1][j + 1] == 0) {
+                        this.simulationGrid[i-1][j+1] = this.simulationGrid[i][j];
                         this.simulationGrid[i][j] = 0;
-                        this.simulationGrid[i-1][j+1] = 1;
                     }
                 }
             }

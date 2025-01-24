@@ -5,13 +5,17 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import controller.SimulationController;
+import model.SimulationModel;
+
 public class ControlPanelView extends JPanel implements ActionListener, ChangeListener {
     private final SimulationController controller;
 
     private final JButton resetButton;
     private final JToggleButton sandLogic;
-    private final JToggleButton gameOfLifeLogic;
     private final JSlider cursorRadiusSlider;
     private final JSlider simulationSpeedSlider;
     private final JSlider gameOfLifeMultiplierSlider;
@@ -32,24 +36,16 @@ public class ControlPanelView extends JPanel implements ActionListener, ChangeLi
         this.sandLogic = new JToggleButton("Sand Logic", true);
         this.sandLogic.setFont(defaultFont);
 
-        this.gameOfLifeLogic = new JToggleButton("Game of Life Logic", false);
-        this.gameOfLifeLogic.setFont(defaultFont);
-
         this.cursorRadiusSlider = new JSlider(JSlider.HORIZONTAL, 1, 100, this.controller.getModel().getRadius());
         this.simulationSpeedSlider = new JSlider(JSlider.HORIZONTAL, 0, 200, this.controller.getDelay());
         this.gameOfLifeMultiplierSlider = new JSlider(JSlider.HORIZONTAL, 0,10, this.controller.getModel().getGameOfLifeMultiplier());
 
-        JPanel colorPanel = new JPanel();
-        colorPanel.setLayout(new GridLayout(2, 5))
-        for(int i = 0 i < SimulationModel.color_hex.length; i++){
-        
-        }
+
 
         //ADD LISTENERS
 
         this.resetButton.addActionListener(this);
         this.sandLogic.addActionListener(this);
-        this.gameOfLifeLogic.addActionListener(this);
         this.cursorRadiusSlider.addChangeListener(this);
         this.simulationSpeedSlider.addChangeListener(this);
         this.gameOfLifeMultiplierSlider.addChangeListener(this);
@@ -100,13 +96,11 @@ public class ControlPanelView extends JPanel implements ActionListener, ChangeLi
         this.add(gameOfLifeLogicPanel);
         this.add(cursorRadiusPanel);
         this.add(simulationSpeedPanel);
+        this.add(createColorGrid());
         this.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
     }
     public boolean sandLogicOn(){
         return sandLogic.isSelected();
-    }
-    public boolean gameOfLifeLogicOn(){
-        return gameOfLifeLogic.isSelected();
     }
     public void stateChanged(ChangeEvent e) {
         if(e.getSource() == cursorRadiusSlider){
@@ -121,6 +115,44 @@ public class ControlPanelView extends JPanel implements ActionListener, ChangeLi
             this.gameOfLifeLogicLabel.setText("Game Of Life: " + (this.gameOfLifeMultiplierSlider.getValue()));
             this.controller.getModel().setGameOfLifeMultiplier(this.gameOfLifeMultiplierSlider.getValue());
         }
+    }
+    public JPanel createColorGrid(){
+        JPanel colorGrid = new JPanel();
+        colorGrid.setLayout(new GridLayout(2, 5));
+        for(int i = 0; i < SimulationModel.color_hex.length; i++){
+            final int colorIndex = i;
+            JPanel colorPanel = new JPanel();
+            colorPanel.setBackground(SimulationModel.color_hex[i]);
+            colorPanel.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    controller.getModel().setChosenColor(colorIndex);
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    controller.getModel().setChosenColor(colorIndex);
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
+            colorGrid.add(colorPanel);
+
+        }
+        return colorGrid;
     }
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == this.resetButton) this.controller.getModel().resetGrid();
