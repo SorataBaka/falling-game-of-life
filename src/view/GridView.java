@@ -10,12 +10,15 @@ import java.awt.event.MouseMotionListener;
 
 public class GridView extends JPanel implements MouseListener, MouseMotionListener {
     private final SimulationModel myModel;
+    private int currentX;
+    private int currentY;
     public GridView(SimulationModel model) {
         this.setSize(new Dimension(model.getWidth(), model.getHeight()));
         this.setBackground(Color.GRAY);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         this.myModel = model;
+        this.currentX = this.currentY = -1;
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -34,16 +37,15 @@ public class GridView extends JPanel implements MouseListener, MouseMotionListen
     @Override
     public void mouseClicked(MouseEvent e) {
         // Called when the mouse is clicked (pressed and released).
-        this.myModel.drawCircle(e.getX(), e.getY());
-        this.repaint();
-
+        this.currentX = e.getX();
+        this.currentY = e.getY();
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         // Called when the mouse button is pressed.
-        this.myModel.drawCircle(e.getX(), e.getY());
-        this.repaint();
+        this.currentX = e.getX();
+        this.currentY = e.getY();
 
     }
 
@@ -64,7 +66,36 @@ public class GridView extends JPanel implements MouseListener, MouseMotionListen
     @Override
     public void mouseDragged(MouseEvent e) {
         // Called when the mouse is dragged (clicked and moved).
-        this.myModel.drawCircle(e.getX(), e.getY());
+        if(this.currentX == -1 || this.currentY == -1 ){
+            this.currentX = e.getX();
+            this.currentY = e.getY();
+            return;
+        }
+        //Get new coordinates
+        int newX = e.getX();
+        int newY = e.getY();
+
+        //Get distance
+        int distanceX = newX - this.currentX;
+        int distanceY = newY - this.currentY;
+
+        //Get steps
+        int steps = Math.max(Math.abs(distanceX), Math.abs(distanceY));
+
+        double xStep = (double)distanceX / steps;
+        double yStep = (double)distanceY / steps;
+        
+        //Starting point
+        float x = currentX;
+        float y = currentY;
+
+        for(int i = 0; i <= steps; i++){
+            this.myModel.drawCircle(Math.round(x), Math.round(y));
+            x += xStep;
+            y += yStep;
+        }
+        this.currentX = newX;
+        this.currentY = newY;
         this.repaint();
 
     }

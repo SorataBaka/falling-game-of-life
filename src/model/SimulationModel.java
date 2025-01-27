@@ -12,6 +12,7 @@ public class SimulationModel {
     private int radius;
     private final SimulationController controller;
     private int gameOfLifeMultiplier;
+    private final Random random;
     public final static Color[] color_hex = {
             Color.RED,        // Red
             Color.BLUE,       // Blue
@@ -32,6 +33,7 @@ public class SimulationModel {
         this.radius = 10;
         this.gameOfLifeMultiplier = 0;
         this.chosenColor = 2;
+        this.random = new Random();
 
         this.simulationGrid = new int[gridWidth][gridHeight];
         //Initialize the entire grid to be 0
@@ -67,11 +69,10 @@ public class SimulationModel {
         this.chosenColor = chosenColor;
     }
     public void drawCircle(int x, int y){
-//        Random random = new Random();
         if(x < 0 || x >= this.gridWidth || y < 0 || y >= this.gridHeight) return;
         for (int i = -this.radius; i <= this.radius; i++) {
             for (int j = -this.radius; j <= this.radius; j++) {
-//                if(random.nextBoolean()) continue;
+               if(this.random.nextBoolean()) continue;
                 // Check if the point is within the circle's radius using Pythagorean theorem
                 if (i * i + j * j <= this.radius * this.radius) {
                     int circleX = x + i;
@@ -123,7 +124,7 @@ public class SimulationModel {
                     if(this.simulationGrid[i+1][j+1] > 0) {
                         neighbours++;
                         colorAverage += this.simulationGrid[i+1][j+1];
-                    }
+                    } 
 
                     boolean currentPositionPopulated = this.simulationGrid[i][j] > 0;
                     if(neighbours == 0){
@@ -141,13 +142,13 @@ public class SimulationModel {
         }
     }
 
-    public void generate(Random random, int i, int j){
+    public void generate(int i, int j){
         if (this.simulationGrid[i][j] > 0) {
             if (j + 1 < this.gridHeight && this.simulationGrid[i][j + 1] == 0) {
                 this.simulationGrid[i][j + 1] = this.simulationGrid[i][j];
                 this.simulationGrid[i][j] = 0;
             } else {
-                if (random.nextBoolean()) {
+                if (this.random.nextBoolean()) {
                     if (j + 1 < this.gridHeight && i - 1 >= 0 && this.simulationGrid[i - 1][j + 1] == 0) {
                         this.simulationGrid[i - 1][j + 1] = this.simulationGrid[i][j];
                         this.simulationGrid[i][j] = 0;
@@ -168,13 +169,12 @@ public class SimulationModel {
         }
     }
     public void calculateNextGeneration(){
-        Random random = new Random();
         for(int j = this.gridHeight - 1; j >= 0; j--) {
             if(j % 2 == 0){
-                for (int i = this.gridWidth - 1; i >= 0; i--) this.generate(random, i, j);
+                for (int i = this.gridWidth - 1; i >= 0; i--) this.generate(i, j);
 
             } else {
-                for (int i = 0; i < this.gridWidth; i++) this.generate(random, i, j);
+                for (int i = 0; i < this.gridWidth; i++) this.generate(i, j);
 
             }
         }
