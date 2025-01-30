@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>p234071 - テーマ２１</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
         *{
             color: white;
         }
@@ -27,6 +26,9 @@
             padding: 10px;
             border-radius: 5px;
             margin: 50px;
+        }
+        ul {
+            list-style-type: none;
         }
 
     </style>
@@ -63,6 +65,72 @@
             <p>$ javac FGameOfLife.java</p>
             <p>$ java FGameOfLife</p>
         </div>
+        <p style="text-align: left; font-size: 25px;">更に、ソースファイルの個別ダウンロードリンク集：</p>
+        <table style="border-collapse: collapse; width: 100%; border: 1px solid white; text-align: left;">
+            <tr style="font-size: 25px;">
+                <th style="border: 1px solid white; padding: 8px; background-color: black; color: white;">ファイル名</th>
+                <th style="border: 1px solid white; padding: 8px; background-color: black; color: white;">説明</th>
+                <th style="border: 1px solid white; padding: 8px; background-color: black; color: white;">ダウンロードリンク</th>
+            </tr>
+            <tr>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;">FGameOfLife.java</td>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;">main関数があるファイル</td>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;"><a href="./FGameOfLife.java" download><p>ダウンロード</p></a></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;">SimulationController.java</td>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;">MVCのControllerを実装するクラス。タイマー管理があるまたはViewとControllerのやり取り。</td>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;"><a href="./SimulationController.java" download><p>ダウンロード</p></a></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;">SimulationModel.java</td>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;">MVCのModelを実装するクラス。ロジック、アルゴリズム、またはデータがおいてある。</td>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;"><a href="./SimulationModel.java" download><p>ダウンロード</p></a></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;">SimulationView.java</td>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;">MVCのViewを実装するクラス。画面の成分を組み立て表示する。</td>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;"><a href="./SimulationView.java" download><p>ダウンロード</p></a></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;">GridView.java</td>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;">Viewの一つの成分。ここでは、ユーザーのマウスクリックやドラッグを受けたり、ロジックの結果を表示したりするクラス。</td>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;"><a href="./GridView.java" download><p>ダウンロード</p></a></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;">ControlPanelView.java</td>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;">Viewの一つの成分。ここでは、ユーザーが変更できるコントロールを作成して、組み立てる。</td>
+                <td style="border: 1px solid white; padding: 8px; background-color: black; color: white;"><a href="ControlPanelView.java" download><p>ダウンロード</p></a></td>
+            </tr>
+        </table>
+        <p style="text-align: left; font-size: 25px;">ディレクトリの構造：</p>
+        <ul style="text-align: left; font-size: 25px; list-style-type: none; background-color: rgb(53, 53, 53); margin: 10px; border-radius: 10px; padding: 20px;">
+            <li>
+                ルート/
+            </li>
+            <ul style="list-style-type: none;">
+                <li>
+                    src/
+                    <ul>
+                        <li>FGameOfLife.java</li>
+                        <li>model/</li>
+                        <ul>
+                            <li>SimulationModel.java</li>
+                        </ul>
+                        <li>view/</li>
+                        <ul>
+                            <li>SimulationView.java</li>
+                            <li>GridView.java</li>
+                            <li>ControlPanelView.java</li>
+                        </ul>
+                        <li>controller/</li>
+                        <ul>
+                            <li>SimulationController.java</li>
+                        </ul>
+                    </ul>
+                </li>
+            </ul>
+        </ul>
         <p style="text-align: left; font-size: 25px;">全ソースコードはGitHubにホストされています。</p>
         <a href="https://github.com/SorataBaka/falling-game-of-life">
             <p style="text-align: left;"><i>Githubリンク</i></p>
